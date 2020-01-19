@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libcub.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amunoz-p <amunoz-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adrian <adrian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 17:59:46 by glopez-a          #+#    #+#             */
-/*   Updated: 2020/01/14 19:30:36 by amunoz-p         ###   ########.fr       */
+/*   Updated: 2020/01/16 22:40:06 by adrian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ int			key_press(int keycode, t_cub *cub);
 int			key_realese(int keycode, t_cub *cub);
 void		put_id(t_cub *cub);
 void		ft_verLine(int x, int y, t_cub *cub);
+void		draw_sky(t_cub *cub);
 
 # endif

@@ -6,7 +6,7 @@
 /*   By: amunoz-p <amunoz-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 17:57:01 by amunoz-p          #+#    #+#             */
-/*   Updated: 2020/01/15 15:44:26 by amunoz-p         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:57:43 by amunoz-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,50 @@
 
 void	ft_verLine(int x, int y, t_cub *cub)
 {
-	if (y < cub->drawStart)
-		ft_memcpy(cub->data + 4 * cub->width * y + x * 4,
-			&cub->sky_color, sizeof(int));
-	else if (y > cub->drawEnd)
+	// if (y < cub->drawStart)
+	// 	ft_memcpy(cub->data + 4 * cub->width * y + x * 4,
+	// 		&cub->sky_color, sizeof(int));
+	if (y > cub->drawEnd)
 		ft_memcpy(cub->data + 4 * cub->width * y + x * 4,
 			&cub->floor_color, sizeof(int));
 }
+void		draw_sky(t_cub *cub)
+{
+	int x;
+	int y;
+	x = 0;
+	const double PI =  3.1415926;
+	int aux;
+	
+	double imgx;
+	int center;
+	int cotainf;
+	int cotasup;
+	int delay = (66 * 660/ 360) / 2;
+	
+	imgx = (double)((int)(acos(cub->dirX)*180/PI)) * 660.0 / 360.0;
+	center = (int)imgx;
+	cotainf = (int)(imgx - delay) % 660;
+	cotasup = (int)(imgx + delay) % 660; 
+	if (center == 0)
+		printf("hola\n");
+	
+	while (x < cub->width)
+	{
+		y = 0;
+		while (y < cub->height / 2)
+		{
+			imgx = (double)(1.0 - (double)x/(cub->width))*(double)cotainf + (double)((double)x/((double)cub->width))*(double)cotasup;
+			imgx = (int)imgx;
+			ft_memcpy(cub->data + 4 * cub->width * y + x * 4,
+					&cub->tex[6].data[y % 218 * cub->tex[6].size_line +
+					((int)imgx) % 660 * cub->tex[6].bpp / 8], sizeof(int));
+			y++;
+		}
+		x++;
+	}
+}
+
 
 
 void	next_step(t_cub *cub)
@@ -67,9 +104,11 @@ int		ft_loop(t_cub *cub)
 	int	y;
 
 	x = 0;
+	
 	ft_movement(cub);
 	cub->img = mlx_new_image (cub->mlx_ptr, cub->width, cub->height);
 	cub->data = mlx_get_data_addr(cub->img, &cub->bpp, &cub->size_line, &cub->endian);
+	draw_sky(cub);
 	while (x < cub->width)
 	{
 		y = 0;
